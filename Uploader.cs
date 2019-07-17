@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -14,8 +13,8 @@ namespace ImageServiceClient
         private const string HTTP_IMG_ID_FILE = "https://h.img.alumni.re/images/Id.txt";
         // We use the curId as something like a counter, so we don't overwrite old files. I decided to do this on the client since *I'm* the only client.
         // Don't be an idiot.
-        private static int nextId;
-        private static int curId;
+        private static int _nextId;
+        private static int _curId;
 
         // Since this is a static class and its initialized only if arguments are passed, its ok to block in the constructor.
         // Don't do this is bigger applications. 
@@ -24,11 +23,11 @@ namespace ImageServiceClient
 
             // as stated above, here we download and parse the Id file so we know what the last Id on the server is
             // (it gets worse)
-            using (WebClient client = new WebClient())
+            using (var client = new WebClient())
                 client.DownloadFile(HTTP_IMG_ID_FILE, "Id.txt");
 
-            if (File.Exists("Id.txt") && int.TryParse(File.ReadAllText("Id.txt"), out curId))
-                nextId = curId + 1;
+            if (File.Exists("Id.txt") && int.TryParse(File.ReadAllText("Id.txt"), out _curId))
+                _nextId = _curId + 1;
         }
 
         // Saves a couple of lines of code :D
@@ -50,7 +49,7 @@ namespace ImageServiceClient
             // I don't even check if a file with the same name exists and just assume so.
             // Asking the server for a file list, looking for it and THEN starting to upload
             // takse too much time. This is single user anyways, I won't run 20 instances of this shit.
-            var request = CreateUploadRequest(Path.GetFileNameWithoutExtension(path) + "_" + curId + Path.GetExtension(path));
+            var request = CreateUploadRequest(Path.GetFileNameWithoutExtension(path) + "_" + _curId + Path.GetExtension(path));
 
             using (var fileStream = File.OpenRead(path)) // doing streams like a good boi in case file is biiig
             using (var ftpStream = request.GetRequestStream())
@@ -63,10 +62,10 @@ namespace ImageServiceClient
         // did you think the server would keep track of the counter? 
         private static async Task UpdateId()
         {
-            Interlocked.Increment(ref curId); // atomicly incrementing our counters because by now i have no idea where our methods execute
-            Interlocked.Increment(ref nextId); // doing this seems to calm me down, no idea if its snakeoil
+            Interlocked.Increment(ref _curId); // atomicly incrementing our counters because by now i have no idea where our methods execute
+            Interlocked.Increment(ref _nextId); // doing this seems to calm me down, no idea if its snakeoil
 
-            await File.WriteAllTextAsync("Id.txt", $"{curId}"); // we write it so we can read it ...
+            await File.WriteAllTextAsync("Id.txt", $"{_curId}"); // we write it so we can read it ...
 
             var request = CreateUploadRequest("Id.txt"); // another request
 

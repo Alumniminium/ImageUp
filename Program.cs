@@ -12,7 +12,7 @@ namespace ImageServiceClient
                 return;// seppuku
 
             var builder = new StringBuilder();
-            for (int i = 0; i < args.Length; i++)
+            for (var i = 0; i < args.Length; i++)
             {
                 // upload image, get direct link bacl
                 var url = await Uploader.UploadAsync(args[i]);

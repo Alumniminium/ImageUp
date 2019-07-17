@@ -8,7 +8,7 @@ namespace ImgUp
 {
     public static class Program
     {
-        public static AbstractClipboard AbstractClipboard;
+        public static AbstractClipboard Clipboard;
         public static async Task Main(string[] args)
         {
             if (args.Length == 0) // no args? no bueno.
@@ -28,12 +28,12 @@ namespace ImgUp
                 Console.WriteLine(url); // optional
             }
             if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                AbstractClipboard= new LinuxAbstractClipboard();
+                Clipboard= new LinuxClipboard();
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                AbstractClipboard=new WindowsAbstractClipboard();
+                Clipboard=new WindowsClipboard();
 
             // set clipboard to the url list 
-            AbstractClipboard.Set(builder.ToString());
+            Clipboard.Set(builder.ToString());
         }// another kind of seppuku
     }
 }

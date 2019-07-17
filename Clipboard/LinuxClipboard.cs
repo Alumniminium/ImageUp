@@ -3,7 +3,7 @@ using System.IO;
 
 namespace ImgUp.Clipboard
 {
-    public class LinuxAbstractClipboard : AbstractClipboard
+    public class LinuxClipboard : AbstractClipboard
     {
         public override void Set(string text)
         {

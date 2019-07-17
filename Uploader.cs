@@ -16,11 +16,15 @@ namespace ImgUp
         private static int _nextId;
         private static int _curId;
 
+        private static readonly string User = "";
+        private static readonly string Pass = "";
         // Since this is a static class and its initialized only if arguments are passed, its ok to block in the constructor.
         // Don't do this is bigger applications. 
         static Uploader()
         {
-
+            var tokenFile = File.ReadAllText("login.token");
+            User = tokenFile.Split(':')[0];
+            Pass = tokenFile.Split(':')[1];
             // as stated above, here we download and parse the Id file so we know what the last Id on the server is
             // (it gets worse)
             using (var client = new WebClient())
@@ -34,7 +38,8 @@ namespace ImgUp
         private static FtpWebRequest CreateUploadRequest(string file)
         {
             var request = (FtpWebRequest)WebRequest.Create(FTP_IMG_ROOT + $"{file}");
-            request.Credentials = new NetworkCredential("ftp", "root");
+            
+            request.Credentials = new NetworkCredential(User, Pass);
             request.EnableSsl = true; // this is the reason we can't use WebClient. It won't work with ssl.
             request.Method = WebRequestMethods.Ftp.UploadFile;
             return request;

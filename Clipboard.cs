@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace ImageServiceClient
+namespace ImgUp
 {
     public static class Clipboard
     {

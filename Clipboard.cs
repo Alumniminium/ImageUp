@@ -98,7 +98,7 @@ namespace ImgUp
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool GlobalUnlock(IntPtr hMem);
 
-        [DllImport("kernel32.dll")]
+        [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory")]
         public static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
         
         [DllImport("user32.dll", SetLastError = true)]

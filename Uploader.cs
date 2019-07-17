@@ -1,5 +1,7 @@
+using System;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,6 +24,7 @@ namespace ImgUp
         // Don't do this is bigger applications. 
         static Uploader()
         {
+            Console.WriteLine(Environment.CurrentDirectory);
             var tokenFile = File.ReadAllText("login.token");
             User = tokenFile.Split(':')[0];
             Pass = tokenFile.Split(':')[1];

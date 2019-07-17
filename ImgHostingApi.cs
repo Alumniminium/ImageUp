@@ -35,7 +35,7 @@ namespace ImageServiceClient
         private static FtpWebRequest CreateUploadRequest(string file)
         {
             var request = (FtpWebRequest)WebRequest.Create(FTP_IMG_ROOT + $"{file}");
-            request.Credentials = new NetworkCredential("jailedftp", "root");
+            request.Credentials = new NetworkCredential("ftp", "root");
             request.EnableSsl = true; // this is the reason we can't use WebClient. It won't work with ssl.
             request.Method = WebRequestMethods.Ftp.UploadFile;
             return request;

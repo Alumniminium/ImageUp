@@ -1,31 +1,22 @@
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Runtime.InteropServices;
 
-namespace ImgUp
+namespace ImgUp.Clipboard
 {
-    public static class Clipboard
+    public class WindowsAbstractClipboard : AbstractClipboard
     {
-        public static void Set(string text)
-        {
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                SetLinux(text);
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                SetWindows(text);
-            else
-            Console.WriteLine("IDK HOW TO SET CLIPBOARD ON " +OSPlatform.OSX);
-        }
+        private const uint CF_UNICODETEXT = 13;
+        private const uint GMEM_MOVABLE = 0x0002;
 
-        private static void SetWindows(string text)
+        public override void Set(string text)
         {
             try
             {
                 OpenClipboard(IntPtr.Zero);
                 var bytes = ((uint)text.Length + 1) * 2;
                 var hGlobal = GlobalAlloc(GMEM_MOVABLE, (UIntPtr)bytes);
-                
+
                 try
                 {
                     var source = Marshal.StringToHGlobalUni(text);
@@ -33,7 +24,7 @@ namespace ImgUp
                     try
                     {
                         var target = GlobalLock(hGlobal);
-                        
+
                         try
                         {
                             CopyMemory(target, source, bytes);
@@ -43,7 +34,7 @@ namespace ImgUp
                             GlobalUnlock(target);
                         }
                         if (SetClipboardData(CF_UNICODETEXT, hGlobal) == IntPtr.Zero)
-                            throw new Win32Exception(Marshal.GetLastWin32Error());  
+                            throw new Win32Exception(Marshal.GetLastWin32Error());
                         hGlobal = IntPtr.Zero;
                     }
                     finally
@@ -62,31 +53,6 @@ namespace ImgUp
                 CloseClipboard();
             }
         }
-
-        private static void SetLinux(string text)
-        {
-            var tmpFilePath = Path.GetTempFileName();
-            File.WriteAllText(tmpFilePath, text);
-            try
-            {
-                var arguments = $"-c \"cat {tmpFilePath} | xclip -i -selection clipboard\"";
-                var process = new Process
-                {
-                    StartInfo = new ProcessStartInfo
-                    {
-                        FileName = "bash",
-                        Arguments = arguments,
-                        UseShellExecute = false,
-                    }
-                };
-                process.Start();
-                process.WaitForExit(1000 * 5);
-            }
-            finally
-            {
-                File.Delete(tmpFilePath);
-            }
-        }
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern IntPtr GlobalAlloc(uint uFlags, UIntPtr dwBytes);
 
@@ -102,7 +68,7 @@ namespace ImgUp
 
         [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory")]
         public static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
-        
+
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool CloseClipboard();
@@ -111,9 +77,5 @@ namespace ImgUp
         private static extern bool OpenClipboard(IntPtr hWndNewOwner);
         [DllImport("user32.dll", SetLastError = true)]
         private static extern IntPtr SetClipboardData(uint uFormat, IntPtr data);
-
-        private const uint CF_UNICODETEXT = 13;
-
-        private const uint GMEM_MOVABLE = 0x0002;
     }
 }

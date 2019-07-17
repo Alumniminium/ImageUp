@@ -1,16 +1,19 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using ImgUp.Clipboard;
 
 namespace ImgUp
 {
     public static class Program
     {
+        public static AbstractClipboard AbstractClipboard;
         public static async Task Main(string[] args)
         {
             if (args.Length == 0) // no args? no bueno.
                 return;// seppuku
-
+            
             var builder = new StringBuilder();
             for (var i = 0; i < args.Length; i++)
             {
@@ -24,8 +27,13 @@ namespace ImgUp
 
                 Console.WriteLine(url); // optional
             }
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                AbstractClipboard= new LinuxAbstractClipboard();
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                AbstractClipboard=new WindowsAbstractClipboard();
+
             // set clipboard to the url list 
-            Clipboard.Set(builder.ToString());
+            AbstractClipboard.Set(builder.ToString());
         }// another kind of seppuku
     }
 }

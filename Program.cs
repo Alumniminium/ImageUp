@@ -28,9 +28,9 @@ namespace ImgUp
                 Console.WriteLine(url); // optional
             }
             if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                AbstractClipboard= new LinuxAbstractClipboard();
+                AbstractClipboard= new LinuxClipboard();
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                AbstractClipboard=new WindowsAbstractClipboard();
+                AbstractClipboard=new WindowsClipboard();
 
             // set clipboard to the url list 
             AbstractClipboard.Set(builder.ToString());

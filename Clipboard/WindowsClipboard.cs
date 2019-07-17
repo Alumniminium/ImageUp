@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace ImgUp.Clipboard
 {
-    public class WindowsAbstractClipboard : AbstractClipboard
+    public class WindowsClipboard : AbstractClipboard
     {
         private const uint CF_UNICODETEXT = 13;
         private const uint GMEM_MOVABLE = 0x0002;

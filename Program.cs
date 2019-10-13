@@ -17,7 +17,7 @@ namespace ImgUp
             var builder = new StringBuilder();
             for (var i = 0; i < args.Length; i++)
             {
-                // upload image, get direct link bacl
+                // upload image, get direct link back
                 var url = await Uploader.UploadAsync(args[i]);
                 // if this is the last file, don't add a new line at the end.
                 if (i == args.Length - 1)

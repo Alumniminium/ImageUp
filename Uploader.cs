@@ -51,11 +51,11 @@ namespace ImgUp
         // you test that and email me the results. blog@her.st ;D
         public static async Task<string> UploadAsync(string path)
         {
-            // further attemt at creating a more unique path but still giving it some readability.
+            // further attempt at creating a more unique path but still giving it some readability.
             // this would turn File.txt into File_3948.txt
             // I don't even check if a file with the same name exists and just assume so.
             // Asking the server for a file list, looking for it and THEN starting to upload
-            // takse too much time. This is single user anyways, I won't run 20 instances of this shit.
+            // taske too much time. This is single user anyways, I won't run 20 instances of this shit.
             var request = CreateUploadRequest(Path.GetFileNameWithoutExtension(path) + "_" + _curId + Path.GetExtension(path));
 
             using (var fileStream = File.OpenRead(path)) // doing streams like a good boi in case file is biiig
@@ -69,7 +69,7 @@ namespace ImgUp
         // did you think the server would keep track of the counter? 
         private static async Task UpdateId()
         {
-            Interlocked.Increment(ref _curId); // atomicly incrementing our counters because by now i have no idea where our methods execute
+            Interlocked.Increment(ref _curId); // atomically incrementing our counters because by now i have no idea where our methods execute
             Interlocked.Increment(ref _nextId); // doing this seems to calm me down, no idea if its snakeoil
 
             await File.WriteAllTextAsync("Id.txt", $"{_curId}"); // we write it so we can read it ...

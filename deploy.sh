@@ -7,4 +7,4 @@ os='linux-x64'
 
 dotnet publish -c Release
 sudo warp-packer --arch $os --input_dir $src --exec $file --output $dest$cmd
-echo $(which $name)
+echo $(which $cmd)

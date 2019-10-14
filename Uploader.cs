@@ -19,7 +19,7 @@ namespace ImgUp
             Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/imgup");
             var tokenFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/imgup/login.token";
             if (!File.Exists(tokenFilePath))
-                Console.WriteLine("Need a `login.token` file in `.config/imgup` with ftp `user:pass` content");
+                Console.WriteLine($"Need a `login.token` file here: `{tokenFilePath}` with ftp `user:pass` content");
             var tokenFile = File.ReadAllText(tokenFilePath);
             User = tokenFile.Split(':')[0];
             Pass = tokenFile.Split(':')[1];

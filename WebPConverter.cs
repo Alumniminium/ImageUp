@@ -8,7 +8,7 @@ namespace ImgUp
     {
         public static string Convert(string inputPath)
         {
-            var arguments = $"-c \"cwebp {inputPath} -o {Path.ChangeExtension(inputPath, ".webp")}\"";
+            var arguments = $"-c \"cwebp -q 75 -alpha_q 10 {inputPath} -o {Path.ChangeExtension(inputPath, ".webp")}\"";
             var process = new Process
             {
                 StartInfo = new ProcessStartInfo

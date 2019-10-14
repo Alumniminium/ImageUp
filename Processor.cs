@@ -16,7 +16,7 @@ namespace ImgUp
             ".png",
             ".bmp",
         };
-        private const int QUALITY = 55;
+        private const int QUALITY = 75;
         public static string Resize(string inputPath, int maxHeight)
         {
             var ext = Path.GetExtension(inputPath);
@@ -38,7 +38,7 @@ namespace ImgUp
                 var resized = new Bitmap(width, height);
                 using (var graphics = Graphics.FromImage(resized))
                 {
-                    graphics.CompositingQuality = CompositingQuality.HighSpeed;
+                    graphics.CompositingQuality = CompositingQuality.HighQuality;
                     graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
                     graphics.CompositingMode = CompositingMode.SourceCopy;
                     graphics.DrawImage(image, 0, 0, width, height);

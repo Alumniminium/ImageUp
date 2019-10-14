@@ -6,8 +6,6 @@ namespace ImgUp
 {
     public static class WebPConverter
     {
-        //Print + shift
-        // maim -s ~/upload.png; imgup ~/upload.png && play ~/.config/.ding.wav
         public static string Convert(string inputPath)
         {
             var arguments = $"-c \"cwebp {inputPath} -o {Path.ChangeExtension(inputPath, ".webp")}\"";

@@ -38,7 +38,7 @@ namespace ImgUp
                     builder.AppendLine("image: " + url);
 
                 if (resize)
-                    args[i] = Processor.Resize(args[i], sizeh);
+                    args[i] = ImageResizer.Resize(args[i], sizeh);
 
                 if (convert)
                     args[i] = WebPConverter.Convert(args[i]);

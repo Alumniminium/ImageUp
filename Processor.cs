@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImgUp
 {
-    public static class Processor
+    public static class ImageResizer
     {
         private static readonly string[] SupportedExtensions = new string[]
         {

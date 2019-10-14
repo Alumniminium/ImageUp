@@ -11,7 +11,7 @@ namespace ImgUp.Clipboard
             File.WriteAllText(tmpFilePath, text);
             try
             {
-                var arguments = $"-c \"xclip -i -selection clipboard\"";
+                var arguments = $"-c \"cat {tmpFilePath} | xclip -selection clipboard\"";
                 var process = new Process
                 {
                     StartInfo = new ProcessStartInfo
@@ -19,13 +19,10 @@ namespace ImgUp.Clipboard
                         FileName = "bash",
                         Arguments = arguments,
                         UseShellExecute = false,
-                        RedirectStandardInput = true
+                        CreateNoWindow = false,
                     }
                 };
                 process.Start();
-                process.StandardInput.Write(text);
-                process.StandardInput.Flush();
-                process.StandardInput.Close();
                 process.WaitForExit(1000 * 5);
             }
             finally

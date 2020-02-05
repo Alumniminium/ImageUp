@@ -9,19 +9,10 @@ namespace ImgUp
 {
     public static class Processor
     {
-        private static readonly string[] SupportedExtensions = new string[]
-        {
-            ".jpg",
-            ".jpeg",
-            ".png",
-            ".bmp",
-        };
         private const int QUALITY = 55;
         public static string Resize(string inputPath, int maxHeight)
         {
             var ext = Path.GetExtension(inputPath);
-            if (!SupportedExtensions.Contains(ext))
-                return inputPath;
             using (var image = new Bitmap(System.Drawing.Image.FromFile(inputPath)))
             {
                 int width, height;

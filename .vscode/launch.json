@@ -10,21 +10,12 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-<<<<<<< HEAD
             "program": "${workspaceFolder}/bin/Debug/netcoreapp2.2/ImgUp.dll",
             "args": [
                 "-r",
                 "-c",
                 "--height=480",
                 "/home/alumni/upload.png"
-=======
-            "program": "${workspaceFolder}/bin/Debug/netcoreapp3/linux-x64/ImgUp.dll",
-            "args": [
-                "-r",
-                "-c",
-                "--height=240",
-                "/tmp/upload.png"
->>>>>>> 98e70a2419d19ebbb0584bac7970b5a56a090b97
             ],
             "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console

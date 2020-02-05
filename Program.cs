@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -16,6 +17,11 @@ namespace ImgUp
         public static StreamWriter Logger = new StreamWriter("/home/alumni/imgup.log", true);
         public static async Task Main(string[] args)
         {
+
+            if(Debugger.IsAttached)
+            {
+                args = new string[] { "-r" , "-c","--height=240", "/tmp/upload.png" };
+            }
             if (args.Length == 0) // no args? no bueno.
                 return;// seppuku
             Logger.WriteLine("Starting ImgUp...");
